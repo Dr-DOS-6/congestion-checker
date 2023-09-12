@@ -1,0 +1,39 @@
+{% extends "frame.html" %}
+{% block content %}
+<h1>{{tabname}}</h1>
+{% for k, v in data.items() %}
+<p>{{v[0]}}</p>
+<p>混雑状況 {{v[1]}}</p>
+<p>最終編集時間 {{v[2]}}</p>    
+<div name="class"></div>
+<select name="{{k}}" id="{{k}}">
+    <option value="">選択</option>
+    <option value="混雑している">混雑している</option>
+    <option value="少し混雑している">少し混雑している</option>
+    <option value="混雑していない">混雑していない</option>
+</select>
+<input type="button" onclick="A('{{k}}')" value="送信">
+
+{% endfor %}
+
+<script>
+    function A(_class) {
+        var xhr = new XMLHttpRequest();
+        var data =  document.getElementById(_class).value;
+        console.log(_class, data)
+        xhr.open("GET", "/update/{{tabname}}?class="+_class+"&congestion="+data);
+        xhr.onreadystatechange  = function (e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                window.location.reload();
+            } else {
+            //
+            }
+        }
+        };
+        xhr.send();
+    }
+</script>
+
+
+{% endblock %}

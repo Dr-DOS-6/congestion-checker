@@ -1,0 +1,12 @@
+{% extends "frame.html" %}
+{% block content %}
+<h1>{{tabname}}</h1>
+{% for k, v in data.items() %}
+<div>
+    <p>{{v[0]}}</p>
+    <p>混雑状況 {{v[1]}}</p>
+    <p>最終編集時間 {{v[2]}}</p>    
+</div>
+
+{% endfor %}
+{% endblock %}

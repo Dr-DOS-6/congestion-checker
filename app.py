@@ -3,6 +3,7 @@ import datetime
 
 app = Flask(__name__)
 
+# 各クラスのデータベース
 database = {
     "北館":{},
     "南館":{
@@ -17,11 +18,12 @@ database = {
     "三号館":{}
 }
 
-
+# メインページ 館ごとに混雑状況を確認できる
 @app.route("/<tabname>")
 def main(tabname):
     return render_template("index.html", tabname=tabname, data=database[tabname])
 
+# 混雑状況の更新ページ
 @app.route("/update/<tabname>", methods=["GET"])
 def update(tabname):
     _class = request.args.get("class")
@@ -33,10 +35,12 @@ def update(tabname):
         print(database)
     return render_template("update.html",tabname=tabname, data=database[tabname])
 
+# /に来たら北館ページに遷移
 @app.route("/")
 def redi():
     return redirect("/北館")
 
-
+# 実働時にはdebugはオフに
+# 今回は実験がてら、flaskのテストサーバーではなく、wsgiのサーバーを使って実装したい
 if __name__ == "__main__":
     app.run(port=8000, host="0.0.0.0", debug=True)
